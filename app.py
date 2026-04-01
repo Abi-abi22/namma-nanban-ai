@@ -14,8 +14,7 @@ try:
     # Updated Model Name
     model = genai.GenerativeModel('gemini-1.5-flash-latest')
 except Exception as e:
-    st.error("API Key or Model setup-la problem thala! Secrets-ah check pannunga.")
-
+    st.error(f"Setup Error: {str(e)}")
 # Slang selection
 slang = st.sidebar.selectbox("Slang Choose Pannunga:", ["Chennai", "Madurai", "Kongu"])
 
