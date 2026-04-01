@@ -6,22 +6,26 @@ st.set_page_config(page_title="Namma Nanban AI", page_icon="😎")
 st.title("😎 Namma Nanban AI")
 st.caption("Unga kooda jolly-ah pesa oru local nanban!")
 
-# API Key - Itha appram safe-ah vachukalam, ippo testing-ku direct-ah kodu
-API_KEY = "AIzaSyADSe-HOa9AReIbNO1JsI_JkTmvN2PJbpk" 
-genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
+# API Key from Secrets
+try:
+    API_KEY = st.secrets["AIzaSyADSe-HOa9AReIbNO1JsI_JkTmvN2PJbpk"]
+    genai.configure(api_key=API_KEY)
+    
+    # Updated Model Name
+    model = genai.GenerativeModel('gemini-1.5-flash-latest')
+except Exception as e:
+    st.error("API Key or Model setup-la problem thala! Secrets-ah check pannunga.")
 
-# Persona/Slang selection
+# Slang selection
 slang = st.sidebar.selectbox("Slang Choose Pannunga:", ["Chennai", "Madurai", "Kongu"])
 
-# System prompt based on slang
+# System prompt
 system_instructions = f"You are a funny friend from {slang}, Tamil Nadu. Speak in Tanglish. Use local slang. Be sarcastic and helpful."
 
-# Chat history initialize
+# Chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Display chat history
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
@@ -33,8 +37,11 @@ if prompt := st.chat_input("Enna thala, enna vishayam?"):
         st.markdown(prompt)
 
     # AI Response
-    with st.chat_message("assistant"):
-        full_prompt = f"{system_instructions} \nUser: {prompt}"
-        response = model.generate_content(full_prompt)
-        st.markdown(response.text)
-        st.session_state.messages.append({"role": "assistant", "content": response.text})
+    try:
+        with st.chat_message("assistant"):
+            # generate_content-la simple-ah prompt anuppalam
+            response = model.generate_content(f"{system_instructions} \nUser: {prompt}")
+            st.markdown(response.text)
+            st.session_state.messages.append({"role": "assistant", "content": response.text})
+    except Exception as e:
+        st.error(f"Error: {str(e)}")
