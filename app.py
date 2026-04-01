@@ -8,7 +8,7 @@ st.caption("Unga kooda jolly-ah pesa oru local nanban!")
 
 # API Key from Secrets
 try:
-    API_KEY = st.secrets["AIzaSyADSe-HOa9AReIbNO1JsI_JkTmvN2PJbpk"]
+    API_KEY = st.secrets["GEMINI_API_KEY"]
     genai.configure(api_key=API_KEY)
     
     # Updated Model Name
