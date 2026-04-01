@@ -7,7 +7,7 @@ st.title("😎 Namma Nanban AI")
 st.caption("Unga kooda jolly-ah pesa oru local nanban!")
 
 # API Key - Itha appram safe-ah vachukalam, ippo testing-ku direct-ah kodu
-API_KEY = "UN_GEMINI_API_KEY_INGA_PODU" 
+API_KEY = "AIzaSyADSe-HOa9AReIbNO1JsI_JkTmvN2PJbpk" 
 genai.configure(api_key=API_KEY)
 model = genai.GenerativeModel('gemini-1.5-flash')
 
